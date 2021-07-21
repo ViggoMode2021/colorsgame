@@ -1,0 +1,65 @@
+from tkinter import *
+from tkinter import messagebox
+import random
+import time
+screen = Tk()
+
+screen.geometry('600x600')
+screen.title('juego de colores')
+
+timeleft =30
+
+def start(event):
+    t2.config(text="")
+    if timeleft == 30:
+        countdown()
+
+    nextcolor()
+
+def nextcolor():
+    global s
+    global timeleft
+
+    if timeleft > 0:
+        i.focus_set()
+        if i.get().lower() == colores[1].lower():
+            s+=1
+
+        i.delete(0, END)
+        random.shuffle(colores)
+        tex.config(fg=str(colores[1]), text=str(colores[0]))
+        score=Label(text="score :" + str(s), font=('Arial', 15), fg='red')
+        score.place(x=220, y=290)
+
+    if timeleft == 0:
+        messagebox.showinfo('Juego terminado', f'Hola tu tiempo se ha agotado y tus puntos son ' + str(s))
+
+def countdown():
+    global timeleft
+
+    if timeleft > 0:
+        timeleft -= 1
+        tm=Label(screen, text='Tiempo ' + str(timeleft), font=('Arial', 15), fg='red')
+        tm.place(x=220, y=120)
+        tm.after(1000,countdown)
+
+colores= ['red', 'blue', 'green', 'yellow', 'gray', 'white', 'black', 'orange', 'pink', 'purple', 'brown']
+s=0
+
+t= Label(screen,text='Por favor, escribe el color de la palabra y no el texto', font= ('Arial', 15), fg='red')
+t.place(x=10, y=30)
+
+t2= Label(screen,text='Haz clic para empezar', font= ('Arial', 15), fg='red')
+t2.place(x=100, y=80)
+
+i= Entry(screen, text='Empezar', font= ('Arial', 15), fg='blue')
+i.place(x=200, y=400)
+
+tex= Label(screen, font=('Arial', 25))
+tex.place(x=250, y=190)
+
+screen.bind('<Return>', start)
+i.focus_set()
+screen.mainloop()
+
+#['rojo', 'azul', 'verde', 'amarillo', 'gris', 'blanco', 'negro', 'anaranjado', 'rosado', 'morado', 'marrón']
